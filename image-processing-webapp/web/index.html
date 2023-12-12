@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="newer stylesheet" type="text/css" href="css/slider.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+        crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            height: 100%;
+        }
+
+        .slider::-webkit-slider-thumb {
+            background: #575252;
+            width: 10px;
+        }
+
+        .slider::-moz-range-thumb {
+            background: #ffffff;
+            width: 10px;
+        }
+
+        .slider {
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .slider#higher {
+            top: -30px;
+        }
+
+        .slider.red {
+            background: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 0, 0));
+        }
+
+        .slider.green {
+            background: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 255, 0));
+        }
+
+        .slider.blue {
+            background: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 0, 255));
+        }
+
+        .slidecontainer {
+            width: 33%;
+            display: inline-block;
+            padding: 0px;
+        }
+
+        #img-container {
+            width: 250px;
+            height: 250px;
+            text-align: center;
+        }
+
+        #morphed-container {
+            width: 550px;
+            height: 275px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            margin: 15px 5px;
+        }
+
+        #select-image {
+            width: 100%;
+            padding-right: 2%;
+            float: left;
+            /* position: fixed; */
+            height: 100%;
+            padding-left: 20px;
+            padding-top: 20px;
+            background-color: #d3af37;
+        }
+
+        #select-image p,
+        #select-image ol li {
+            font-size: 20px !important;
+
+        }
+
+        #results {
+            margin-top: 25px;
+            /* margin-left: 32%; */
+            width: 100%;
+            float: left;
+            overflow: auto;
+            z-index: 10;
+        }
+
+        #mask {
+            float: left;
+            width: 50%;
+            z-index: 10;
+        }
+
+
+        #dilateerode {
+            padding-right: 10px;
+            width: 80%;
+        }
+
+        .slider.morph {
+            width: 65%;
+            margin-right: 10px;
+            float: right;
+        }
+
+        div#morphological-operations h4 {
+            margin-top: 100px;
+            padding-top: 250px;
+        }
+
+        div#morphological-operations p {
+            font-size: 20px !important;
+        }
+
+        div#closing-remarks h4 {
+            margin-top: 100px;
+            padding-top: 250px;
+        }
+
+        #closing-remarks p {
+            font-size: 20px !important;
+
+        }
+
+        p,
+        li {
+            text-align: justify;
+            font-size: 14px;
+        }
+
+
+        .navbar {
+            background-color: #070b1e;
+
+
+        }
+
+        .color-links a {
+            color: #ffffff;
+            border-right: 1px solid hsla(0, 0%, 100%, .2);
+            ;
+        }
+
+        .color-links a:hover {
+            color: orange;
+
+        }
+
+        .ultimo {
+            border-right: none !important;
+        }
+
+        .navbar a {
+
+
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+
+        }
+
+        .links-a a {
+            font-size: 18px;
+
+        }
+
+        .links-b a {
+            font-size: 14px;
+        }
+
+        #fixa {
+            position: fixed;
+        }
+
+        #thresholding p,
+        #thresholding button {
+            font-size: 20px !important;
+        }
+
+        .row {
+            max-width: 100% !important;
+            margin-right: -15px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand" href="https://www.ufac.br/pavic/">
+                    <img src="../web/img/bgtrans.png" width="200" alt="">
+                </a>
+            </div>
+
+            <div>
+                <div class="navbar-nav color-links links-a">
+                    <a class="nav-link active" aria-current="page" href="https://www.ufac.br/pavic/">Início</a>
+                    <a class="nav-link" href="#">O Projeto</a>
+                    <a class="nav-link" href="#">Treinamento</a>
+                    <a class="nav-link" href="#">Trabalhos</a>
+                    <a class="nav-link ultimo" href="#">Equipe</a>
+
+                </div>
+            </div>
+
+            <div>
+                <div class="navbar-nav color-links links-b">
+                    <a class="nav-link" style="color: yellow;">PARCEIROS</a>
+                    <a class="nav-link" href="#">UFAC</a>
+                    <a class="nav-link" href="#">MOTOROLA</a>
+                    <a class="nav-link" href="#">FLEXTRONICS</a>
+                    <a class="nav-link ultimo" href="#">FUNDAPE</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div id='select-image'>
+                <h3>Pré-processamento de Imagem</h3>
+                <p>A segmentação de imagem, uma técnica de processamento de imagem, é o processo de obtenção do primeiro
+                    plano
+                    ou remoção do plano de fundo de uma imagem.
+                    Para imagens simples, técnicas tradicionais são suficientes para segmentar (ou criar um contorno de uma imagem) o primeiro plano, o que
+                    será
+                    explorado nesta processo.
+                    <br>
+                    <br>
+                    Por favor, siga estas etapas:
+                <ol>
+                    <li>Selecione a imagem para processar</li>
+                    <li>Ajuste a faixa de limiar de cada canal para filtrar o plano de fundo</li>
+                    <li>Obtenha a máscara que será usada para filtragem</li>
+                    <li>Aplique a máscara na imagem escolhida</li>
+                    <li>Aplique erosão OU dilatação com o raio escolhido na máscara e aplique a máscara transformada
+                    </li>
+                </ol>
+                </p>
+                <h4>Selecionar Imagem</h4>
+                <select name="img" id="img">
+                    <option value="none" disabled hidden selected>--SELECIONAR IMAGEM--</option>
+                </select>
+                <br />
+                <div id="img-container" style="background-color: #070b1e !;">
+                    <img class="img-mudar" src="">
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-8">
+            <div id='results'>
+                <div id='thresholding'>
+                    <h4>Criação Básica de Máscara</h4>
+                    <p>Análogo a como os olhos percebem cores usando receptores (cones vermelhos, verdes e azuis),
+                        imagens
+                        são
+                        compostas por três canais ou dimensões correspondentes a RGB.
+                        Usando limiares simples para um desses canais, certos pixels/partes na imagem podem ser
+                        removidos.
+                        <br><br>
+                        Os controles deslizantes abaixo definem o <b>intervalo</b> de valores para os canais vermelho,
+                        verde
+                        e
+                        azul que serão retidos na imagem.
+                        Por exemplo, quando o canal vermelho é limitado a 50 e 155, todos os pixels fora desse intervalo
+                        serão
+                        filtrados.
+                        <br>
+                        A máscara deve ser gerada primeiro a partir dos limiares escolhidos nos controles deslizantes
+                        antes
+                        de
+                        aplicar a máscara na imagem.
+                    </p>
+                    <div>
+                        <div class="slidecontainer">
+                            <label for="lower" style="color: red;">Canal Vermelho</label>
+                            <br />
+                            <input type="range" min="0" max="255" value="50" class="slider red" id="lower">
+                            <input type="range" min="0" max="255" value="255" class="slider red" id="higher">
+                        </div>
+                        <div class="slidecontainer">
+                            <label for="lower" style="color: green;">Canal Verde</label>
+                            <br />
+                            <input type="range" min="0" max="255" value="50" class="slider green" id="lower">
+                            <input type="range" min="0" max="255" value="255" class="slider green" id="higher">
+                        </div>
+                        <div class="slidecontainer">
+                            <label for="lower" style="color: blue;">Canal Azul</label>
+                            <br />
+                            <input type="range" min="0" max="255" value="50" class="slider blue" id="lower">
+                            <input type="range" min="0" max="255" value="255" class="slider blue" id="higher">
+                        </div>
+                    </div>
+
+
+                    <div class="threshold">
+                        <div id="mask">
+                            <button id="get-mask">Pegar mascara</button>
+                            <div id="img-container">
+                                <img src="">
+                            </div>
+                        </div>
+                        <div id="mask">
+                            <button id="apply-mask">Aplicar mascara</button>
+                            <div id="img-container">
+                                <img src="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="morphological-operations">
+                    <h4>Operações Morfológicas</h4>
+                    <p>Quando as cores das imagens estão muito misturadas, ou seja, o primeiro plano não é facilmente
+                        separável
+                        do plano de fundo usando técnicas de limiarização, algumas operações podem ser realizadas na
+                        máscara
+                        para melhorar os resultados.
+                        Existem muitas operações, mas a maioria delas pode ser rastreada até duas operações
+                        fundamentais:
+                        erosão
+                        e dilatação.
+                        <b>Erosão</b> é o processo de "encolher" os pixels do plano de fundo, transformando todos os
+                        pixels
+                        do
+                        primeiro plano circundantes de um pixel de plano de fundo em pixels de plano de fundo.
+                        <b>Dilatação</b> é o oposto, ela aumenta os pixels do primeiro plano, transformando o plano de
+                        fundo
+                        em
+                        primeiro plano.
+                        Observe que ambas as operações têm um conceito de "vizinhança" ou um entorno.
+                        Isso é definido por um elemento estruturante que também é uma matriz de uns e zeros que podem
+                        ter
+                        qualquer forma.
+                        Para este projeto, nosso elemento estruturante será um círculo com raio definido pelo usuário.
+                        <br><br>
+                        Observe que apenas uma operação é realizada na imagem da máscara (seja erosão ou dilatação).
+                    </p>
+                    <div class="morph">
+                        <div id="dilateerode">
+                            <select id='dilateorerode'>
+                                <option value='dilation' selected>Dilate</option>
+                                <option value='erosion'>Erode</option>
+                            </select>
+                            <input type="range" min="1" max="20" value="1" step="1" class="slider morph" id="morph">
+                            <label for="morph-slider" style="float: right;">Radius (dilation): 1px</label>
+                        </div>
+
+                        <div class="threshold">
+                            <div id="mask">
+                                <div id="img-container">
+                                    <img src="" id="morphed">
+                                </div>
+                            </div>
+                            <div id="mask">
+                                <div id="img-container">
+                                    <img src="" id="morphed-masked">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="closing-remarks">
+                    <h4>Combinação de Operações</h4>
+                    <p>Na prática, geralmente é realizada uma combinação dessas operações para processar imagens.
+                        As duas operações mais comumente usadas são os operadores de <b>fechamento</b> e
+                        <b>abertura</b>.
+                        O fechamento, que é feito dilatando e depois erodindo a imagem, preenche todos os buracos na
+                        imagem
+                        que
+                        são menores que o elemento estruturante.
+                        A abertura, por outro lado, é a erosão seguida de dilatação, o que remove todos os blobs
+                        (manchas)
+                        menores que o elemento estruturante.
+                        Operações mais complicadas, como o top-hat, também são uma combinação de fechamento e abertura.
+                        Portanto, para obter a imagem desejada, são realizadas operações após operações nas imagens.
+                    </p>
+                    <p>
+                        Após fazer essas operações você já tem a mascara de uma imagem pronta para uso, seria possivel
+                        então passar para uma arquitetura com a U-net e então treina-la para segmentar um objeto de sua
+                        escolha, lembrando que para que um modelo treinado tenha um bom desempenho na segmentação de
+                        imagens, seria necessario um grande conjunto de dados.
+                    </p>
+                </div>
+
+          
+                
+            </div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="js/imageselect.js"></script>
+    <script>
+        function getMask() {
+            let R_min = document.querySelector("input.slider.red#lower").value
+            let G_min = document.querySelector("input.slider.green#lower").value
+            let B_min = document.querySelector("input.slider.blue#lower").value
+            let R_max = document.querySelector("input.slider.red#higher").value
+            let G_max = document.querySelector("input.slider.green#higher").value
+            let B_max = document.querySelector("input.slider.blue#higher").value
+            let selImg = document.querySelector("select#img").value
+            fetch("/threshold/" + selImg + '/' + R_min + '/' + R_max + '/' + G_min + '/' + G_max + '/' + B_min + '/' + B_max).then(
+                function (r) {
+                    document.querySelector("button#get-mask+div img").src = "data/thresholded/" + selImg.slice(0, -4) + '-' + selImg.slice(selImg.length - 3) + '-' + R_min + '-' + R_max + '-' + G_min + '-' + G_max + '-' + B_min + '-' + B_max + '.png'
+                }
+            )
+        }
+
+        function applyMask() {
+            let R_min = document.querySelector("input.slider.red#lower").value
+            let G_min = document.querySelector("input.slider.green#lower").value
+            let B_min = document.querySelector("input.slider.blue#lower").value
+            let R_max = document.querySelector("input.slider.red#higher").value
+            let G_max = document.querySelector("input.slider.green#higher").value
+            let B_max = document.querySelector("input.slider.blue#higher").value
+            let selImg = document.querySelector("select#img").value
+            fetch("/apply_mask/" + selImg + '/' + R_min + '/' + R_max + '/' + G_min + '/' + G_max + '/' + B_min + '/' + B_max).then(
+                function (r) {
+                    document.querySelector("button#apply-mask+div img").src = "data/masked_img/" + selImg.slice(0, -4) + '-' + selImg.slice(selImg.length - 3) + '-' + R_min + '-' + R_max + '-' + G_min + '-' + G_max + '-' + B_min + '-' + B_max + '.png'
+                }
+            )
+        }
+
+        function morphImage() {
+            let rad = document.querySelector("input#morph").value
+            let op = document.querySelector("select#dilateorerode").value
+            let selImg = document.querySelector("select#img").value
+            fetch('/morph/' + op + '/' + selImg + '/' + rad).then(
+                function (r) {
+                    document.querySelector("img#morphed").src = "data/morph/morph_new_" + selImg.slice(0, -4) + '-' + selImg.slice(selImg.length - 3) + "-" + rad + "-" + op + ".png"
+                }
+            )
+        }
+
+        function morphImageMask() {
+            let rad = document.querySelector("input#morph").value
+            let op = document.querySelector("select#dilateorerode").value
+            let selImg = document.querySelector("select#img").value
+            setTimeout(function () {
+                document.querySelector("img#morphed-masked").src = "data/masked_morphimg/morph_masked_" + selImg.slice(0, -4) + '-' + selImg.slice(selImg.length - 3) + "-" + rad + "-" + op + ".png"
+            }, 500);
+        }
+
+        function changeSliderDisplay() {
+            let rad = document.querySelector("input#morph").value
+            let op = document.querySelector("select#dilateorerode").value
+            document.querySelector("input#morph+label").innerText = "Radius (" + op + "): " + rad + "px"
+        }
+
+
+        document.querySelector("button#get-mask").addEventListener("click", getMask)
+        document.querySelector("button#apply-mask").addEventListener("click", applyMask)
+        document.querySelector("input#morph").addEventListener("change", morphImage)
+
+        document.querySelector("input#morph").addEventListener("change", morphImageMask)
+        document.querySelector("select#dilateorerode").addEventListener("change", changeSliderDisplay)
+        document.querySelector("input#morph").addEventListener("change", changeSliderDisplay)
+
+
+    </script>
+
+</body>
+
+</html>
